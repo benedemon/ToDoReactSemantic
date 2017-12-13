@@ -1,44 +1,75 @@
 import React, { Component } from 'react';
-import { Input } from 'semantic-ui-react';
+import { Form, Button, Message } from 'semantic-ui-react';
 
 class AddTodo extends Component {
   constructor() {
     super();
     this.state = {
-      input: '',
+      titleError: false,
+      title: '',
+      description: '',
     };
 
     this.addNewTodo = this.addNewTodo.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
   }
 
-  onInputChange(e) {
-    const inputValue = e.target.value;
-    this.setState({ input: inputValue });
+  onInputChange(e, { name, value }) {
+    this.setState({ [name]: value });
   }
 
   addNewTodo(e) {
     e.preventDefault();
 
+    if (this.state.title === '') {
+      this.setState({ titleError: true });
+      return;
+    }
+
     const todo = {
-      text: this.state.input,
+      id: Date.now(),
+      title: this.state.title,
+      description: this.state.description,
       completed: false,
     };
 
-    this.setState({ input: '' });
+    this.setState({
+      titleError: false,
+      title: '',
+      description: '',
+    });
+
     this.props.addTodo(todo);
   }
 
   render() {
     return (
-      <form className="todo-form" onSubmit={this.addNewTodo}>
-        <p>Todo</p>
-        <Input
-          onChange={this.onInputChange}
-          value={this.state.input}
-          placeholder="Enter todo"
+      <Form error={this.state.titleError} className="todo-form" onSubmit={this.addNewTodo}>
+        <Form.Field required>
+          <label>Todo</label>
+          <Form.Input
+            onChange={this.onInputChange}
+            value={this.state.title}
+            name="title"
+            placeholder="Enter todo"
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>Description</label>
+          <Form.TextArea
+            placeholder="Description"
+            style={{ minHeight: 100 }}
+            onChange={this.onInputChange}
+            value={this.state.description}
+            name="description"
+          />
+        </Form.Field>
+        <Message
+          error
+          header="Title Required"
         />
-      </form>
+        <Button primary type="submit">Add ToDo</Button>
+      </Form>
     );
   }
 }

@@ -1,7 +1,9 @@
 export default function reducer(state = {
   todos: [
     {
-      text: 'Do this',
+      id: 1112132321321,
+      title: 'Do this',
+      description: 'rsadjiansdasd',
       completed: true,
     },
   ],
@@ -16,9 +18,9 @@ export default function reducer(state = {
       };
     }
     case 'TOGGLE_TODO': {
-      const text = action.payload;
+      const id = action.payload;
       const newTodos = [...state.todos];
-      const todoToUpdate = newTodos.findIndex(todo => todo.text === text);
+      const todoToUpdate = newTodos.findIndex(todo => todo.id === id);
       newTodos[todoToUpdate].completed = !newTodos[todoToUpdate].completed;
 
       return {
@@ -26,17 +28,14 @@ export default function reducer(state = {
       };
     }
     case 'DELETE_TODO': {
-      const text = action.payload;
-      let newTodos = [...state.todos];
-      const todoToDelete = newTodos.findIndex(todo => todo.text === text);
+      const id = action.payload;
+      const newTodos = [...state.todos];
+      const todoToDelete = newTodos.findIndex(todo => todo.id === id);
       newTodos.splice(todoToDelete, 1);
 
       return {
         todos: newTodos,
       };
-      // return {
-      //   todos: state.todos.filter(todo => todo.text !== action.payload),
-      // };
     }
     default: {
       break;

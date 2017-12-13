@@ -11,10 +11,10 @@ export function addTodo(payload) {
   };
 }
 
-export function deleteTodo(text) {
-  return { type: 'DELETE_TODO', payload: text };
+export function deleteTodo(id) {
+  return { type: 'DELETE_TODO', payload: id };
 }
 
-export function toggleTodo(text) {
-  return { type: 'TOGGLE_TODO', payload: text };
+export function toggleTodo(id) {
+  return { type: 'TOGGLE_TODO', payload: id };
 }
